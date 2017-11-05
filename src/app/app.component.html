@@ -1,0 +1,7 @@
+<div class="container">
+    <div class="page-header"> Brady's {{title}} Shopping World </div>
+    <hr/>
+    	<span class="badge"> {{cart.length}} </span>  in cart
+    <hr/>
+     <app-product-list (buy) = "buy($event)" [products]="products"></app-product-list>
+  </div>

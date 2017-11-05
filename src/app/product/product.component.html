@@ -1,0 +1,100 @@
+ <div class="list-group">
+      
+        <div class="row">
+          <div class="col-md-3 col-sm-3 col-xs-3">
+            <img src="{{product.images[0].full}}" class="img-responsive"/>
+          </div>
+
+          <div class="col-md-9 col-sm-3 col-xs-3">
+            <h4 [innerHtml]="product.name"> </h4>
+<!--        <h5 [innerText]="product.price|currency"> </h5> -->
+<!--        <h5> {{product.price|currency:'USD':true}} SGD - &#8377; - &#x20b9; - &#x53; - &#x24;</h5> -->
+
+            <div *ngIf="product.offerYes">
+              <h5> U.P.: <s>{{product.price|priceDiscount|currency:'USD':true}} </s>  SGD </h5>
+
+              <h5> Offer Price: {{product.price|priceDiscount:product.offer|currency:'USD':true}} SGD</h5>
+            </div>
+
+            <div *ngIf="!product.offerYes">
+              <h5> Price: {{product.price|priceDiscount:product.offer|currency:'USD':true}} SGD</h5>
+            </div>
+
+
+            <div>
+              <div *ngIf="product.canBuy">
+                <button (click) ="handleBuyClick($event, product)" class="btn btn-primary"> Buy </button>
+              </div>
+
+              <div *ngIf="!product.canBuy">
+                <img [src]="product.images[1].full" width="100" height="100" class="img-responsive"/>
+              </div>
+
+              <hr/>
+              <section>
+
+                <ul class="nav nav-tabs">
+<!--
+                  <li class='active'> <a (click)="changeTab(1)" href="#">Description </a> </li>
+                  <li> <a (click)="changeTab(2)" href="#"> Specification </a> </li>
+                  <li> <a (click)="changeTab(3)" href="#"> Review </a> </li>
+-->
+
+                  <li [class.active]="isTabSelected(1)"> <a (click)="changeTab(1, $event)" href>Description </a> </li>
+                  <li [ngClass]="{'active':isTabSelected(2)}"> <a (click)="changeTab(2, $event)" href> Specification </a> </li>
+                  <li [ngClass]="{'active':isTabSelected(3)}"> <a (click)="changeTab(3, $event)" href> Review </a> </li>
+
+                </ul>
+
+                <div *ngIf="isTabSelected(1)" class="panel"><p>  {{product.description1}}, {{product.internalMemory}},
+                  {{product.description2}}</p> </div>
+                <div *ngIf="isTabSelected(2)" class="panel"><p>  Yet to recieve Specification </p> </div>
+                <div *ngIf="isTabSelected(3)" class="panel">
+                	<div class="alert alert-danger" *ngFor= "let review of product.reviews">
+                		<span> Rating: {{review.rating}}</span> &mdash; Email: {{review.author}}
+                		<hr/>
+                		Comments:
+                		<p> {{review.body}} </p>
+                	</div>
+                	
+                	<hr/>
+                	
+					<div class="col-md-8 col-sm-8 col-xs-8">
+						<div class="panel panel-default">
+                		<div class="panel-heading"> Review Form </div>
+	                		<div class="panel-body">
+	                			<div class="form-group">
+	                				<label> Rating </label>
+	                				<select class="form-control">
+	                					<option *ngFor="let n of [1,2,3,4,5]" [value]="n">{{n}}</option>
+	                				</select>
+	                			</div>
+	                			
+	                			<div class="form-group">
+	                				<label> Email </label>
+	                				<input class="form-control"/>
+	                			</div>
+	                			
+	                			<div class="form-group">
+	                				<label> Comments </label>
+	                				<textarea rows="" cols="" class="form-control"></textarea>
+	                			</div>
+	                			
+	                			<button class="btn">Submit </button>
+	                			
+	                		</div>
+                		</div>
+					</div>
+                </div>
+
+              </section>
+
+            </div>
+
+<!--        <pre>{{product|json}}</pre> -->
+
+
+          </div>
+        </div>
+      
+    </div>
